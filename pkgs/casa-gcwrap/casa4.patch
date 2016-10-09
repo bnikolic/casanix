@@ -1,0 +1,11 @@
+--- a/python/scripts/casapy.py	1970-01-01 01:00:01.000000000 +0100
++++ b/python/scripts/casapy.py	2016-04-30 13:06:32.010211219 +0100
+@@ -1282,8 +1282,6 @@
+ #
+ # import testing environment
+ #
+-import publish_summary
+-import runUnitTest
+ #
+ home=os.environ['HOME']
+ 

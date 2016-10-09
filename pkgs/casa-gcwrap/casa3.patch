@@ -1,0 +1,62 @@
+--- a/apps/casapy/casa
++++ b/apps/casapy/casa
+@@ -76,18 +76,17 @@ a_root=`echo ${CASAPATH} | awk '{print $1}'`
+ a_host=$(hostname -s)
+ a_arch=`echo ${CASAPATH} | awk '{print $2}'`
+ a_site="${a_site}-${a_arch}"
+-p_bind=${p_root}/bin
+-p_libd=${p_root}/lib/python@python_version@
++p_bind=NIXPYTHON/bin
++p_libd=NIXPYTHON/lib/python2.7
+ 
++export PYTHONEXECUTABLE=NIXPYTHON/bin/python
+ if [ $isapple = 'T' ]; then
+-    export PYTHONEXECUTABLE=${p_root}/Resources/Python.app/Contents/MacOS/Python
+     export TERMINFO="${casa3party}/lib/terminfo"
+     unset  LD_LIBRARY_PATH
+     export LC_CTYPE=en_US.UTF-8
+     export DYLD_FRAMEWORK_PATH="${casa3party}/Library/Frameworks"
+     p_path=${p_bind}:${p_libd}:${p_libd}/plat-mac:${p_libd}/plat-darwin:${p_bind}/lib-scriptpackages:${p_libd}/lib-tk:${p_libd}/lib-dynload:${p_libd}/site-packages:${p_libd}/site-packages/Numeric:${p_libd}/site-packages/PyObjC
+ else
+-    export PYTHONEXECUTABLE=${p_root}/bin/python
+     export TERMINFO="/usr/share/terminfo"
+     p_path=${p_bind}:${p_libd}:${casa3party}/lib/python26.zip:${p_libd}/plat-linux2:${p_libd}/lib-tk:${p_libd}/lib-dynload:${p_libd}/site-packages:${p_libd}/site-packages/Numeric
+ fi
+@@ -97,14 +96,7 @@ if [ ! ${DEBUGGER} ]; then
+ fi
+ 
+ 
+-if [ $installed_from_rpm = "T" ]; then
+-    export   __CASAPY_PYTHONDIR=${prefix}/lib/python@python_version@
+-else
+-    export   __CASAPY_PYTHONDIR=${prefix}/python/@python_version@
+-fi
+-p_path=${__CASAPY_PYTHONDIR}:${__CASAPY_PYTHONDIR}/regressions/admin:${p_path}
+-# echo "DEBUG: __CASAPY_PYTHONDIR = $__CASAPY_PYTHONDIR"
+-# echo "DEBUG: p_path = $p_path"
++export  __CASAPY_PYTHONDIR=NIXCASAGCWRAP/python/2.7/
+ 
+ export PYTHONHOME=${p_root}
+ export PYTHONPATH=${p_path}:${PYTHONPATH}
+@@ -119,7 +111,7 @@ else
+ fi
+ # echo "DEBUG: PATH = ${PATH}"
+ 
+-export PGPLOT_DIR="${casa3party}/lib"
++export PGPLOT_DIR="NIXPGPLOT/lib"
+ export LESS=${LESS="-X"}
+ #
+ ###### Technically, DYLD_LIBRARY_PATH should not need to be set
+@@ -216,11 +208,7 @@ if [[ -f casapy.log ]]; then
+     ln casapy.log casapy.$(tail -n 1 casapy.log | cut -c 1-19 | tr ' ' T).log && rm casapy.log
+ fi
+ 
+-if [ $installed_from_rpm = "T" ]; then
+-    casapy_command="${prefix}/lib/python@python_version@/casapy.py"
+-else
+-    casapy_command="${prefix}/python/@python_version@/casapy.py"
+-fi
++casapy_command="NIXCASAGCWRAP/python/2.7/casapy.py"
+ # echo "DEBUG: casapy_command = $casapy_command"
+ 
+ #exec -a pythonw /opt/casa/darwin11/bin/pythonw -W ignore::DeprecationWarning -m cProfile -o stats.prof ${prefix}/python/@python_version@/casapy.py $*

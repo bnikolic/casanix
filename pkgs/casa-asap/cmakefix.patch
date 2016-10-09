@@ -1,0 +1,36 @@
+Index: CMakeLists.txt
+===================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -216,8 +216,6 @@
+ #
+ # casacore
+ #
+-unset( CASACORE_INCLUDE_DIR CACHE )
+-unset( CASACORE_LIBRARIES CACHE )
+ if( NOT USE_LIBCASACORE )
+    # use casacore libraries 
+    set( _includename casa/aipsdef.h )
+@@ -677,6 +675,7 @@
+ #
+ include_directories( ${CASACORE_INCLUDE_DIR}/..
+                      ${CASACORE_INCLUDE_DIR}
++                     ${CASACORE_INCLUDE_DIR}/include/casacore		     
+                      ${Boost_INCLUDE_DIR}
+                      ${X11_INCLUDE_DIRS}
+                      ${PGPLOT_INCLUDE_DIRS}
+Index: cmake/withcasa.cmake
+===================================================================
+--- a/cmake/withcasa.cmake
++++ b/cmake/withcasa.cmake
+@@ -87,10 +87,8 @@
+     #  +    Matches preceding pattern one or more times
+     #  ?    Matches preceding pattern zero or once only
+     #  $    Mathces at end of a line
+-    string( REGEX REPLACE /[^/]+/?$ "" casaroot ${CMAKE_SOURCE_DIR} )
+     set( CMAKE_INSTALL_PREFIX ${casaroot}/${arch} CACHE PATH "casa architecture directory" FORCE )
+ ELSE()
+-    set( casaroot ${CMAKE_INSTALL_PREFIX}/.. CACHE PATH "casa architecture directory" FORCE )
+ ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+ 
+ message( STATUS "casaroot = " ${casaroot} )

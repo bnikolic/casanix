@@ -1,0 +1,73 @@
+--- a/python/scripts/casapy.py	1970-01-01 01:00:01.000000000 +0100
++++ b/python/scripts/casapy.py	2016-01-29 13:20:58.943394590 +0000
+@@ -1426,7 +1426,8 @@
+             ###
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-ipythondir',casa['dirs']['rc']+'/ipython','-c','execfile("'+casa['flags']['-c']+'")'], user_ns=globals() )
+-            except:
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+         else:
+             ###
+@@ -1434,7 +1435,8 @@
+             ###
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-ipythondir',casa['dirs']['rc']+'/ipython','-c',casa['flags']['-c']], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+     else:
+         if os.path.exists( casa['flags']['-c'] ) :
+@@ -1443,7 +1445,8 @@
+             ###
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-upgrade','-ipythondir',casa['dirs']['rc']+'/ipython','-c','execfile("'+casa['flags']['-c']+'")'], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+         else:
+             ###
+@@ -1451,30 +1454,35 @@
+             ###
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-upgrade','-ipythondir',casa['dirs']['rc']+'/ipython','-c',casa['flags']['-c']], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+ else:
+     if os.path.exists( casa['dirs']['rc']+'/ipython/ipy_user_conf.py' ) :
+         if(thelogfile != 'null') :
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-ipythondir',casa['dirs']['rc']+'/ipython'], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+         else :
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-ipythondir',casa['dirs']['rc']+'/ipython'], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+     else:
+         if(thelogfile != 'null') :
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-logfile',ipythonlog,'-upgrade','-ipythondir',casa['dirs']['rc']+'/ipython'], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+         else :
+             try:
+                 ipshell = IPython.Shell.IPShell( argv=['-prompt_in1','CASA <\#>: ','-autocall','2','-colors',__ipython_colors, '-nomessages', '-nobanner','-upgrade','-ipythondir',casa['dirs']['rc']+'/ipython'], user_ns=globals() )
+-            except: 
++            except e:
++                print e
+                 print "ERROR: falied to create an instance of IPython.Shell.IPShell"
+     ipshell.IP.runlines('execfile("'+fullpath+'")')
+ 

@@ -1,0 +1,10 @@
+--- a/test/statistics.cc	2015-05-26 06:06:01.000000000 +0100
++++ b/test/statistics.cc	2016-04-28 22:24:33.539368228 +0100
+@@ -47,6 +47,7 @@
+ #include "gtest/gtest.h"
+ 
+ namespace {
++  using namespace std;
+ double SumSquared(size_t elements, float const data[], bool const is_valid[]) {
+ 	double result = 0;
+ 	for (size_t i = 0; i < elements; ++i) {
