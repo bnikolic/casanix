@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 76ed5f5..6ba0adf 100644
+index 76ed5f5..7cea14e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1075,9 +1075,12 @@ if ( ${dbusxx} STREQUAL dbus-c++ )
@@ -25,17 +25,35 @@ index 76ed5f5..6ba0adf 100644
  
  #########################
  #                       #
-@@ -1316,7 +1319,9 @@ include (GoogleTestInstall)
+@@ -1316,7 +1319,10 @@ include (GoogleTestInstall)
  #                       #
  #########################
  
 -include (BreakpadInstall)
 +find_package(PkgConfig)
 +pkg_check_modules(PC_BREAKPAD QUIET breakpad)
++pkg_check_modules(PC_BREAKPAD_CLIENT QUIET breakpad-client)
 +
  
  ###
  
+diff --git a/casaqt/CMakeLists.txt b/casaqt/CMakeLists.txt
+index 111a277..44fd922 100644
+--- a/casaqt/CMakeLists.txt
++++ b/casaqt/CMakeLists.txt
+@@ -220,6 +220,12 @@ casa_add_library( casaqt
+   QwtPlotter/QPShape.cc
+   QwtPlotter/QPTool.cc
+   )
++
++if (UseCrashReporter)
++   # Note the prefix with lib introduced by casa_add_library
++   target_link_libraries (libcasaqt general ${PC_BREAKPAD_LIBRARIES} ${PC_BREAKPAD_CLIENT_LIBRARIES})
++endif ()
++
+ install (FILES
+ 	PlotterImplementations/PlotterImplementations.h
+ 	DESTINATION include/casacode/casaqt/QwtPlotter
 diff --git a/crash/CMakeLists.txt b/crash/CMakeLists.txt
 index 1e8b4b5..b0bdd73 100644
 --- a/crash/CMakeLists.txt
@@ -69,7 +87,7 @@ index 343a12a..27045db 100644
 \ No newline at end of file
 +endmacro ()
 diff --git a/stdcasa/CMakeLists.txt b/stdcasa/CMakeLists.txt
-index 2a53142..ed26584 100644
+index 2a53142..05dabee 100644
 --- a/stdcasa/CMakeLists.txt
 +++ b/stdcasa/CMakeLists.txt
 @@ -28,8 +28,9 @@ casa_add_library( stdcasa
@@ -79,7 +97,7 @@ index 2a53142..ed26584 100644
 -    target_include_directories (libstdcasa PUBLIC ${Breakpad_IncludeRoot})
 -    target_link_libraries (libstdcasa general ${Breakpad_Library})
 +    target_include_directories (libstdcasa PUBLIC ${PC_BREAKPAD_INCLUDE_DIRS})
-+    target_link_libraries (libstdcasa general ${PC_BREAKPAD_LIBRARIES})
++    target_link_libraries (libstdcasa general ${PC_BREAKPAD_LIBRARIES} ${PC_BREAKPAD_CLIENT_LIBRARIES})
 +    target_compile_options(libstdcasa PUBLIC ${PC_BREAKPAD_CFLAGS_OTHER})    
  endif ()
  
