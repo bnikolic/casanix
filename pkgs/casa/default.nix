@@ -22,6 +22,7 @@
 stdenv.mkDerivation rec {
     name = "casa";
     revno= "38314";
+    gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
     buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
 	  swig fftw fftwSinglePrec
@@ -39,7 +40,7 @@ stdenv.mkDerivation rec {
 
     src = fetchgit {
     	url = file:///home/bnikolic/oss/github-casa/ ;
-	rev = "e438ab523d7adc71e63fd69c7df40eade7b0ec51" ;
+	rev = "${gitrev}" ;
 	sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
     };
 
@@ -49,6 +50,13 @@ stdenv.mkDerivation rec {
     ];
 
     preConfigure = ''
+       #Insert the feature no
+
+       # This does not work because FEATURE is expected to be a numeric value
+       #  substituteInPlace CMakeLists.txt --replace "CASA_VERSION_FEATURE 0 CACHE STRING" "CASA_VERSION_FEATURE \\\"git-${gitrev}\\\" CACHE STRING"
+
+       substituteInPlace CMakeLists.txt --replace "CASA_VERSION_FEATURE 0 CACHE STRING" "CASA_VERSION_FEATURE ${revno} CACHE STRING"
+
         export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${dbus}/lib/pkgconfig"
     '';
 
