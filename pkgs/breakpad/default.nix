@@ -24,7 +24,7 @@ stdenv.mkDerivation {
   '';
 
    postInstall = ''
-     # CASA requires the CC file
+     # CASA requires the CC file which contains static methods. Bad Karma
      cp -vr   src/common/linux/http_upload.cc $out/include/breakpad/common/linux/
      substituteInPlace $out/include/breakpad/common/linux/http_upload.cc --replace "third_party/curl/curl.h" "curl/curl.h"
    '';
