@@ -1,10 +1,10 @@
-diff --git a/code/CMakeLists.txt b/code/CMakeLists.txt
-index 8d96267..a871262 100644
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 76ed5f5..6ba0adf 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -937,9 +937,12 @@ if ( ${dbusxx} STREQUAL dbus-c++ )
-     endforeach()
-   endforeach()
+@@ -1075,9 +1075,12 @@ if ( ${dbusxx} STREQUAL dbus-c++ )
+   # Debian arch specific header location (64 bit only)
+   list( APPEND dbus_prefix /usr/lib/x86_64-linux-gnu/dbus-1.0)
  
 +  find_package(PkgConfig)
 +  pkg_check_modules(PC_DBUS QUIET dbus-1)
@@ -16,32 +16,71 @@ index 8d96267..a871262 100644
      NO_CHECK   # This header does not compile if included directly
      NO_REQUIRE
      IGNORE /usr/lib64/casapy
-@@ -1157,7 +1160,7 @@ casa_find( LIBSAKURA
+@@ -1308,7 +1311,7 @@ casa_find( LIBSAKURA
  #                         #
  ###########################
  
 -include (GoogleTestInstall)
 +
  
- casa_config_end()
+ #########################
+ #                       #
+@@ -1316,7 +1319,9 @@ include (GoogleTestInstall)
+ #                       #
+ #########################
  
-diff --git a/code/install/target.cmake b/code/install/target.cmake
-index 1ea0d79..dc28acf 100644
+-include (BreakpadInstall)
++find_package(PkgConfig)
++pkg_check_modules(PC_BREAKPAD QUIET breakpad)
++
+ 
+ ###
+ 
+diff --git a/crash/CMakeLists.txt b/crash/CMakeLists.txt
+index 1e8b4b5..b0bdd73 100644
+--- a/crash/CMakeLists.txt
++++ b/crash/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ if (UseCrashReporter)
+-    casa_add_executable (NONE CrashReportPoster apps/reporter/CrashReportPoster.cc ${Breakpad_IncludeRoot}/common/linux/http_upload.cc)
++    casa_add_executable (NONE CrashReportPoster apps/reporter/CrashReportPoster.cc ${PC_BREAKPAD_INCLUDEDIR}/common/linux/http_upload.cc)
+     target_link_libraries (CrashReportPoster -ldl)
+-    target_include_directories (CrashReportPoster PUBLIC ${Breakpad_IncludeRoot})
++    target_include_directories (CrashReportPoster PUBLIC ${PC_BREAKPAD_INCLUDEDIR})
+ endif ()
+diff --git a/install/target.cmake b/install/target.cmake
+index 343a12a..27045db 100644
 --- a/install/target.cmake
 +++ b/install/target.cmake
-@@ -589,7 +589,7 @@ macro (casa_add_google_test)
-                         LIBRARIES ${libraries} # gtest + provide libs
-                         INCLUDE_DIRS ${gtestIncludeDirectory}) # gtest include dirs
+@@ -593,7 +593,7 @@ macro (casa_add_google_test)
+                             LIBRARIES ${libraries} # gtest + provide libs
+                             INCLUDE_DIRS ${gtestIncludeDirectory}) # gtest include dirs
  
 -        add_dependencies (${CasaTestName} ${GoogleTest_Target})
 +#    add_dependencies (${CasaTestName} ${GoogleTest_Target})
  
- endmacro ()
+     endif ()
  
-@@ -635,4 +635,4 @@ macro (casa_add_demo module)
+@@ -641,4 +641,4 @@ macro (casa_add_demo module)
  
    add_dependencies (${executableName} lib${module})
  
 -endmacro ()
 \ No newline at end of file
 +endmacro ()
+diff --git a/stdcasa/CMakeLists.txt b/stdcasa/CMakeLists.txt
+index 2a53142..ed26584 100644
+--- a/stdcasa/CMakeLists.txt
++++ b/stdcasa/CMakeLists.txt
+@@ -28,8 +28,9 @@ casa_add_library( stdcasa
+ 	${CMAKE_CURRENT_BINARY_DIR}/version.cc
+ 	)
+ if (UseCrashReporter)
+-    target_include_directories (libstdcasa PUBLIC ${Breakpad_IncludeRoot})
+-    target_link_libraries (libstdcasa general ${Breakpad_Library})
++    target_include_directories (libstdcasa PUBLIC ${PC_BREAKPAD_INCLUDE_DIRS})
++    target_link_libraries (libstdcasa general ${PC_BREAKPAD_LIBRARIES})
++    target_compile_options(libstdcasa PUBLIC ${PC_BREAKPAD_CFLAGS_OTHER})    
+ endif ()
+ 
+ if (UseCrashReporter)

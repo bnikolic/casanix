@@ -12,8 +12,8 @@
   subversion, subversionClient,
   # Perl is used to create the SO version string
   perl,
-  # Use gtest package, not special download
-  gtest,
+  # Use breakpad, gtest package, not special download
+  breakpad,   gtest, curl,
   # E.g. for colormaps
   casa-data
  }:
@@ -28,12 +28,19 @@ stdenv.mkDerivation rec {
 	  blas gsl jre
   	  dbus dbus_cplusplus dbus_tools xercesc sqlite readline ncurses python dbus_libs
 	  pkgconfig libxslt subversion subversionClient perl
-	  gtest casa-data makeWrapper];
+	  breakpad gtest curl casa-data makeWrapper];
 
-    src = fetchsvn {
-    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
-	rev = "${revno}";
-	sha256 = "1cbzl1v4djmfyr7chwc9wxs89qvs5jnfpz2n7sbqgyx0ay7hwhpd";
+	  
+#    src = fetchsvn {
+#    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
+#	rev = "${revno}";
+#	sha256 = "1cbzl1v4djmfyr7chwc9wxs89qvs5jnfpz2n7sbqgyx0ay7hwhpd";
+#    };
+
+    src = fetchgit {
+    	url = file:///home/bnikolic/oss/github-casa/ ;
+	rev = "e438ab523d7adc71e63fd69c7df40eade7b0ec51" ;
+	sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
     };
 
     # Uses pkgconfig to dbus
@@ -54,7 +61,8 @@ stdenv.mkDerivation rec {
 
      hardeningDisable = [ "format" ];
 
-     sourceRoot = "casa-r${revno}/code";
+#     sourceRoot = "casa-r${revno}/code";
+     sourceRoot = "github-casa-e438ab5/code";     
 
      enableParallelBuilding = true;
 

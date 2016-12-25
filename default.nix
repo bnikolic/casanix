@@ -43,7 +43,8 @@ let
   pgplot = callPackage pkgs/pgplot { };
   libsakura = callPackage pkgs/libsakura { };
   rpfits  = callPackage pkgs/rpfits { };
-  wcslib = callPackage pkgs/wcslib { };  
+  wcslib = callPackage pkgs/wcslib { };
+  breakpad = callPackage pkgs/breakpad {};
 
   liblapackWithAtlasShared = callPackage <nixpkgs/pkgs/development/libraries/science/math/liblapack> {shared=true;};  
 # For easy access to consistent parent packages    
