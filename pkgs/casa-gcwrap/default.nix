@@ -23,6 +23,8 @@
 stdenv.mkDerivation rec {
     name = "casa-gwcrap";
     revno= "38314";
+    gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
+
     buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
 	  swig fftw fftwSinglePrec
@@ -37,10 +39,16 @@ stdenv.mkDerivation rec {
     numpy matplotlib scipy ipython010 dateutil six cycler pyparsing traitlets ipython_genutils decorator  simplegeneric jupyter_core pygments pexpect pathlib2 pickleshare pathpy prompt_toolkit wcwidth readlinepython
     dbuspython];
 
-    src = fetchsvn {
-    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
-	rev = "${revno}";
-	sha256 = "1cbzl1v4djmfyr7chwc9wxs89qvs5jnfpz2n7sbqgyx0ay7hwhpd";
+#    src = fetchsvn {
+#    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
+#	rev = "${revno}";
+#	sha256 = "1cbzl1v4djmfyr7chwc9wxs89qvs5jnfpz2n7sbqgyx0ay7hwhpd";
+#    };
+
+    src = fetchgit {
+    	url = file:///home/bnikolic/oss/github-casa/ ;
+	rev = "${gitrev}" ;
+	sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
     };
 
 
@@ -54,11 +62,11 @@ stdenv.mkDerivation rec {
     ];
 
     postInstall =  ''
-    substituteInPlace $out/python/2.7/casapy.py \
+    substituteInPlace $out/lib/python2.7/casapy.py \
       --replace "@CASADATAROOT@"  ${casa-data} \
       --replace "@CASAGCWRAPROOT@" $out
     # Note @ gets eaten during install so do not use
-    for a in $out/bin/casapy $out/bin/casa
+    for a in $out/bin/casa
     do 
         substituteInPlace  $a\
 	      --replace "NIXPYTHON"  ${python} \
@@ -82,7 +90,8 @@ stdenv.mkDerivation rec {
      "-DNUMPY_ROOT_DIR=${numpy}/lib/python2.7/site-packages/numpy/core"
      ];
 
-     sourceRoot = "casa-r${revno}/gcwrap";
+#     sourceRoot = "casa-r${revno}/gcwrap";
+     sourceRoot = "github-casa-e438ab5/gcwrap";
 
      enableParallelBuilding = true;
 }

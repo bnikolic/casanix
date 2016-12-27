@@ -47,7 +47,7 @@ index 108c764..10f54ec 100755
  export LESS=${LESS="-X"}
  #
  ###### Technically, DYLD_LIBRARY_PATH should not need to be set
-@@ -237,11 +231,7 @@ if [[ -f casa.log ]]; then
+@@ -237,12 +231,8 @@ if [[ -f casa.log ]]; then
      ln casa.log casa.$(tail -n 1 casa.log | cut -c 1-19 | tr ' ' T).log && rm casa.log
  fi
  
@@ -56,7 +56,8 @@ index 108c764..10f54ec 100755
 -else
 -    casapy_command="${prefix}/lib/python@python_version@/$startup"
 -fi
-+casapy_command="NIXCASAGCWRAP/lib/python2.7/$startupy"
++casapy_command="NIXCASAGCWRAP/lib/python2.7/casapy.py"
  # echo "DEBUG: casapy_command = $casapy_command"
  
  #exec -a pythonw /opt/casa/darwin11/bin/pythonw -W ignore::DeprecationWarning -m cProfile -o stats.prof ${prefix}/python@python_version@/$startup $*
+ 
