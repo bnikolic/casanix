@@ -31,7 +31,13 @@ let
 
   casacore = callPackage pkgs/casacore { inherit (pkgs.pythonPackages) numpy ; };
   casacore-data = callPackage pkgs/casacore-data { };
+
   casa = callPackage pkgs/casa { };
+
+  # This does not work out-of-box on a system-wide nix install (i.e., nixbld user)
+  #  casa = pkgs.lib.overrideDerivation (callPackage pkgs/casa { })
+  #             (attrs: rec {       src= pkgs.fetchgitLocal "/home/bnikolic/oss/github-casa/"; });
+
   casa-data = callPackage pkgs/casa-data { };
   casa-asap = callPackage pkgs/casa-asap { inherit (pkgs.pythonPackages) numpy ;};
   casa-gcwrap = callPackage pkgs/casa-gcwrap {
