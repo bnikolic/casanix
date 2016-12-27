@@ -9,7 +9,7 @@
 
  stdenv.mkDerivation rec {
     name = "casa-asap" ;
-    revno= "3099";
+    revno= "3110";
 
     buildInputs = [ cmake gfortran boost
     casa casacore cfitsio pgplot
@@ -17,7 +17,7 @@
 
     src = fetchsvn {
     	url = http://svn.atnf.csiro.au/asap/trunk ;
-	sha256 = "0i8gl4kzvadi5fmz3rar447l3y3yfa0h0rxiy91sdrk6ayca07k6";
+	sha256 = "13zxi0dpwm7y8w68h55vdk0wyhyhz5krcs0vmx2i5fc3d1dds4ng";
 	rev = "${revno}";
     };
 
