@@ -29,10 +29,15 @@ let
 
   };
 
-  casacore = callPackage pkgs/casacore { inherit (pkgs.pythonPackages) numpy ; };
+  casacore = callPackage pkgs/casacore {
+      inherit (pkgs.pythonPackages) numpy;
+      stdenv = pkgs.overrideCC pkgs.stdenv pkgs.gcc_debug;
+   };
   casacore-data = callPackage pkgs/casacore-data { };
 
-  casa = callPackage pkgs/casa { };
+  casa = callPackage pkgs/casa {
+        stdenv = pkgs.overrideCC pkgs.stdenv pkgs.gcc_debug;
+  }; 
 
   # This does not work out-of-box on a system-wide nix install (i.e., nixbld user)
   #  casa = pkgs.lib.overrideDerivation (callPackage pkgs/casa { })
@@ -45,6 +50,7 @@ let
       ipython010=ipython010;
       readlinepython=pkgs.pythonPackages.readline;
       dbuspython=pkgs.pythonPackages.dbus-python;
+      stdenv = pkgs.overrideCC pkgs.stdenv pkgs.gcc_debug;
    };  
   pgplot = callPackage pkgs/pgplot { };
   libsakura = callPackage pkgs/libsakura { };
