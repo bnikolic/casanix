@@ -1,5 +1,5 @@
 { fetchgit,  fetchsvn, cmake, stdenv, makeWrapper,
-  gcc, gfortran, fftw, fftwSinglePrec,
+  gcc, gfortran-debug, fftw, fftwSinglePrec,
   liblapackWithAtlas, cfitsio, flex, bison,
   wcslib, casacore, boost, xorg, qwt,
   pgplot, libsakura, rpfits,
@@ -23,8 +23,7 @@ stdenv.mkDerivation rec {
     name = "casa";
     revno= "39193";
     gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
-
-        buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
+    buildInputs = [ cmake cfitsio gfortran-debug flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
 	  swig fftw fftwSinglePrec
 	  blas gsl jre
@@ -64,7 +63,7 @@ stdenv.mkDerivation rec {
 
     # Switch to proper fotran path
     cmakeFlags = [
-     "-DCMAKE_Fortran_COMPILER=${gfortran}/bin/gfortran"
+     "-DCMAKE_Fortran_COMPILER=${gfortran-debug}/bin/gfortran"
      "-DGoogleTest_ReleaseRoot=${gtest}"
      "-DGoogleTest_LibraryDir=${gtest}/lib"
      ];

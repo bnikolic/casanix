@@ -7,6 +7,15 @@ let
 
   self = rec {
 
+  gfortran-debug = pkgs.wrapCC (pkgs.gcc5.cc.override {
+    name = "gfortran";
+    langFortran = true;
+    langCC = false;
+    langC = false;
+    profiledCompiler = false;
+    stripped = false;
+  });
+
   ipython010 = with pkgs.lib;  pkgs.pythonPackages.buildPythonPackage rec {
 
     version = "0.10.2";

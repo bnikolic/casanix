@@ -1,5 +1,5 @@
 { fetchgit,  cmake, stdenv,
-  gcc, gfortran, fftw, fftwSinglePrec,
+  gcc, gfortran-debug, fftw, fftwSinglePrec,
   liblapackWithAtlas, cfitsio, flex, bison,
   wcslib, casacore-data,
   # For the Python wrapper
@@ -8,7 +8,7 @@
 
 stdenv.mkDerivation rec {
     name = "casacore";
-    buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore-data python
+    buildInputs = [ cmake cfitsio gfortran-debug flex bison liblapackWithAtlas wcslib casacore-data python
     boost numpy ];
 
    src = fetchgit {
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
     cmakeFlags = [
      "-DCXX11=1"
      "-DDATA_DIR=${casacore-data}/share/casacore-data"
-     "-DCMAKE_LIBRARY_PATH=${gfortran}/lib"
+     "-DCMAKE_LIBRARY_PATH=${gfortran-debug}/lib"
      "-DUseCasacoreNamespace=1"
      ];
 

@@ -1,5 +1,5 @@
 { fetchsvn,  cmake, stdenv,
-  gcc, gfortran, boost,
+  gcc, gfortran-debug, boost,
   casa, casacore, cfitsio,
   liblapackWithAtlasShared,
   python,  numpy, xorg, pgplot, rpfits, wcslib,
@@ -11,7 +11,7 @@
     name = "casa-asap" ;
     revno= "3110";
 
-    buildInputs = [ cmake gfortran boost
+    buildInputs = [ cmake gfortran-debug boost
     casa casacore cfitsio pgplot
     liblapackWithAtlasShared python numpy xorg.libXpm rpfits wcslib perl];
 
@@ -29,7 +29,7 @@
     # Switch to proper fotran path
     cmakeFlags = [
      "-DCX11=1" 
-     "-DCMAKE_Fortran_COMPILER=${gfortran}/bin/gfortran"
+     "-DCMAKE_Fortran_COMPILER=${gfortran-debug}/bin/gfortran"
      "-Dcasaroot=${casa}"
      "-DCASA_CODE_PATH=${casa}"
      "-DCASACORE_INCLUDE_DIR=${casacore}"
