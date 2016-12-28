@@ -55,7 +55,7 @@ let
   casa-data = callPackage pkgs/casa-data { };
   casa-asap = callPackage pkgs/casa-asap { inherit (pkgs.pythonPackages) numpy ;};
   casa-gcwrap = callPackage pkgs/casa-gcwrap {
-      inherit (pkgs.pythonPackages) numpy matplotlib scipy dateutil six cycler pyparsing traitlets ipython_genutils decorator simplegeneric jupyter_core nose pygments pexpect backports_shutil_get_terminal_size pathlib2 pickleshare pathpy prompt_toolkit wcwidth ;
+      inherit (pkgs.pythonPackages) numpy matplotlib scipy dateutil six cycler pyparsing traitlets ipython_genutils decorator simplegeneric jupyter_core nose pygments pexpect backports_shutil_get_terminal_size pathlib2 pickleshare pathpy prompt_toolkit wcwidth numba cffi llvmlite enum34 funcsigs singledispatch;
       ipython010=ipython010;
       readlinepython=pkgs.pythonPackages.readline;
       dbuspython=pkgs.pythonPackages.dbus-python;

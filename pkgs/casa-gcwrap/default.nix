@@ -16,7 +16,9 @@
   numpy, matplotlib, scipy, ipython010, dateutil, six, cycler, pyparsing, traitlets, ipython_genutils, decorator,  simplegeneric, jupyter_core, pygments,
   # Run-time dependency (test framework?)
   nose, pexpect, backports_shutil_get_terminal_size, pathlib2, pickleshare, pathpy, prompt_toolkit, wcwidth,
-  readlinepython, dbuspython
+  readlinepython, dbuspython,
+  # Only required for casa-breakin
+  numba, llvmlite, cffi, enum34, funcsigs, singledispatch
  }:
 
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
@@ -37,7 +39,9 @@ stdenv.mkDerivation rec {
 
     propagatedBuildInputs = [
     numpy matplotlib scipy ipython010 dateutil six cycler pyparsing traitlets ipython_genutils decorator  simplegeneric jupyter_core pygments pexpect pathlib2 pickleshare pathpy prompt_toolkit wcwidth readlinepython
-    dbuspython];
+    dbuspython
+    # The following are only required for casa-breakin
+    numba llvmlite cffi enum34 funcsigs singledispatch];
 
     src = fetchsvn {
     	url = https://svn.cv.nrao.edu/svn/casa/trunk;
@@ -73,7 +77,7 @@ stdenv.mkDerivation rec {
               --replace "NIXPGPLOT" ${pgplot} \
               --replace "NIXCASAGCWRAP" $out
 	wrapProgram $a \
-	   --prefix PYTHONPATH : "$(toPythonPath ${matplotlib}):$(toPythonPath ${numpy}):$(toPythonPath ${scipy}):$(toPythonPath ${ipython010}):$(toPythonPath ${pyparsing}):$(toPythonPath ${jupyter_core}):$(toPythonPath ${cycler}):$(toPythonPath ${simplegeneric}):$(toPythonPath ${six}):$(toPythonPath ${dateutil}):$(toPythonPath ${traitlets}):$(toPythonPath ${decorator}):$(toPythonPath ${ipython_genutils}):$(toPythonPath ${pygments}):$(toPythonPath ${pexpect}):$(toPythonPath ${backports_shutil_get_terminal_size}):$(toPythonPath ${pathlib2}):$(toPythonPath ${pickleshare}):$(toPythonPath ${pathpy}):$(toPythonPath ${prompt_toolkit}):$(toPythonPath ${wcwidth}):$(toPythonPath ${readlinepython}):$(toPythonPath ${dbuspython}):${casa-asap}/python/2.7" \
+	   --prefix PYTHONPATH : "$(toPythonPath ${matplotlib}):$(toPythonPath ${numpy}):$(toPythonPath ${scipy}):$(toPythonPath ${ipython010}):$(toPythonPath ${pyparsing}):$(toPythonPath ${jupyter_core}):$(toPythonPath ${cycler}):$(toPythonPath ${simplegeneric}):$(toPythonPath ${six}):$(toPythonPath ${dateutil}):$(toPythonPath ${traitlets}):$(toPythonPath ${decorator}):$(toPythonPath ${ipython_genutils}):$(toPythonPath ${pygments}):$(toPythonPath ${pexpect}):$(toPythonPath ${backports_shutil_get_terminal_size}):$(toPythonPath ${pathlib2}):$(toPythonPath ${pickleshare}):$(toPythonPath ${pathpy}):$(toPythonPath ${prompt_toolkit}):$(toPythonPath ${wcwidth}):$(toPythonPath ${readlinepython}):$(toPythonPath ${dbuspython}):$(toPythonPath ${numba}):$(toPythonPath ${cffi}):$(toPythonPath ${llvmlite}):$(toPythonPath ${enum34}):$(toPythonPath ${funcsigs}):$(toPythonPath ${singledispatch}):${casa-asap}/python/2.7" \
 	   --prefix CASAPATH : "${casa-data}/share"
 	   
     done
