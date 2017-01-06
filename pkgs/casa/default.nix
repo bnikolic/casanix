@@ -21,9 +21,10 @@
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa";
-    revno= "38314";
+    revno= "39221";
     gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
-    buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
+
+        buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
 	  swig fftw fftwSinglePrec
 	  blas gsl jre
@@ -31,18 +32,19 @@ stdenv.mkDerivation rec {
 	  pkgconfig libxslt subversion subversionClient perl
 	  breakpad gtest curl casa-data makeWrapper];
 
-	  
-#    src = fetchsvn {
-#    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
-#	rev = "${revno}";
-#	sha256 = "1cbzl1v4djmfyr7chwc9wxs89qvs5jnfpz2n7sbqgyx0ay7hwhpd";
-#    };
-
-    src = fetchgit {
-    	url = file:///home/bnikolic/oss/github-casa/ ;
-	rev = "${gitrev}" ;
-	sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
+    # The SVN is the master version by NRAO. The SVN and GIT versions
+    # are nearby but necessarily exactly the same revisions.
+    src = fetchsvn {
+    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
+	rev = "${revno}";
+	sha256 = "1gckxmbkmy7gqr1xdmi8850vqj2v5dqaanvc06h0jignr914rapf";
     };
+
+    # src = fetchgit {
+    # url = file:///home/bnikolic/oss/github-casa/ ;
+    # rev = "${gitrev}" ;
+    # sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
+    # };
 
     # Uses pkgconfig to dbus
     patches = [
@@ -69,8 +71,8 @@ stdenv.mkDerivation rec {
 
      hardeningDisable = [ "format" ];
 
-#     sourceRoot = "casa-r${revno}/code";
-     sourceRoot = "github-casa-e438ab5/code";     
+     sourceRoot = "casa-r${revno}/code";
+#     sourceRoot = "github-casa-e438ab5/code";     
 
      enableParallelBuilding = true;
 
