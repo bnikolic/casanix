@@ -21,7 +21,7 @@
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa";
-    revno= "39221";
+    revno= "39193";
     gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
 
         buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
     src = fetchsvn {
     	url = https://svn.cv.nrao.edu/svn/casa/trunk;
 	rev = "${revno}";
-	sha256 = "1gckxmbkmy7gqr1xdmi8850vqj2v5dqaanvc06h0jignr914rapf";
+	sha256 = "1lb6dmi235s5kshvwmhp3yykfg8m4vwcw5f3bwip5qbpgskggcrs";
     };
 
     # src = fetchgit {
