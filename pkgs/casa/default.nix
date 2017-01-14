@@ -21,6 +21,8 @@
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa";
+    # Fakerevno: This is not in the SVN
+    revno = "99";
     gitrev="d57e66b94cadab780758f0d27b0e539a985d5f83";
 
     buildInputs = [ cmake cfitsio gfortran-debug flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
@@ -32,7 +34,7 @@ stdenv.mkDerivation rec {
 	  breakpad gtest curl casa-data makeWrapper];
 
     src = fetchgit {
-    	url = file:///home/bnikolic/oss/github-casa/ ;
+    	url = https://github.com/bnikolic/casa.git ;
 	rev = "${gitrev}" ;
 	sha256 = "19x8vmlwvn46iy7m28l8fkbmxkfvxs7igxdlq216bzhxyf2ndh1q";
 
@@ -69,7 +71,7 @@ stdenv.mkDerivation rec {
 
      hardeningDisable = [ "format" ];
 
-     sourceRoot = "github-casa-d57e66b/code";     
+     sourceRoot = "casa-d57e66b/code";     
 
      enableParallelBuilding = true;
 
