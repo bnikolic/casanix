@@ -21,8 +21,10 @@
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa";
-    revno= "39193";
-    gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
+
+    # Fakerevno: This is not in the SVN
+    revno = "99";
+    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
 
         buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
@@ -32,12 +34,10 @@ stdenv.mkDerivation rec {
 	  pkgconfig libxslt subversion subversionClient perl
 	  breakpad gtest curl casa-data makeWrapper];
 
-    # The SVN is the master version by NRAO. The SVN and GIT versions
-    # are nearby but necessarily exactly the same revisions.
-    src = fetchsvn {
-    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
-	rev = "${revno}";
-	sha256 = "1lb6dmi235s5kshvwmhp3yykfg8m4vwcw5f3bwip5qbpgskggcrs";
+    src = fetchgit {
+    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
+	rev = "${gitrev}" ;
+	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
     };
 
     # src = fetchgit {
