@@ -71,8 +71,7 @@ stdenv.mkDerivation rec {
 
      hardeningDisable = [ "format" ];
 
-     sourceRoot = "casa-r${revno}/code";
-#     sourceRoot = "github-casa-e438ab5/code";     
+     sourceRoot = "casa-b20ad38/code";
 
      enableParallelBuilding = true;
 

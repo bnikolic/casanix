@@ -1,4 +1,4 @@
-{ fetchsvn,  cmake, stdenv,
+{ fetchgit,  cmake, stdenv,
   gcc, gfortran, boost,
   casa, casacore, cfitsio,
   liblapackWithAtlasShared,
@@ -9,16 +9,16 @@
 
  stdenv.mkDerivation rec {
     name = "casa-asap" ;
-    revno= "3110";
 
     buildInputs = [ cmake gfortran boost
     casa casacore cfitsio pgplot
     liblapackWithAtlasShared python numpy xorg.libXpm rpfits wcslib perl];
 
-    src = fetchsvn {
-    	url = http://svn.atnf.csiro.au/asap/trunk ;
-	sha256 = "13zxi0dpwm7y8w68h55vdk0wyhyhz5krcs0vmx2i5fc3d1dds4ng";
-	rev = "${revno}";
+    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
+    src = fetchgit {
+    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
+	rev = "${gitrev}" ;
+	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
     };
 
     patches = [
@@ -37,4 +37,6 @@
      ];
 
      enableParallelBuilding = true;
+
+     sourceRoot = "casa-b20ad38/asap";
 }

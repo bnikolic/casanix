@@ -11,21 +11,21 @@ stdenv.mkDerivation rec {
     buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore-data python
     boost numpy ];
 
-   src = fetchgit {
-     #      url = "file:///home/bnikolic/oss/casacore/" ;
-     	url = "https://github.com/casacore/casacore.git" ;
-	rev = "a1d1d61a9f0c072e9ebc9a1510aca3564806ecbd" ;
-	sha256 = "041w0bz7jjlhs17n3qfwmvi803yjwpy2g045srb87ymmfkww7366";
-	leaveDotGit = false;
-   };
+    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
+    src = fetchgit {
+    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
+	rev = "${gitrev}" ;
+	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
+    };
 
     cmakeFlags = [
      "-DCXX11=1"
      "-DDATA_DIR=${casacore-data}/share/casacore-data"
      "-DCMAKE_LIBRARY_PATH=${gfortran}/lib"
-     "-DUseCasacoreNamespace=1"
+     "-DUseCasacoreNamespace=0"
      ];
 
      enableParallelBuilding = true;
 
+    sourceRoot = "casa-b20ad38/casacore";
 }

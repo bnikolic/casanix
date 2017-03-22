@@ -22,8 +22,6 @@
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa-gwcrap";
-    revno= "39193";
-    gitrev="e438ab523d7adc71e63fd69c7df40eade7b0ec51";
 
     buildInputs = [ cmake cfitsio gfortran flex bison liblapackWithAtlas wcslib casacore boost xorg.libXpm qwt
           pgplot libsakura rpfits
@@ -39,17 +37,12 @@ stdenv.mkDerivation rec {
     numpy matplotlib scipy ipython010 dateutil six cycler pyparsing traitlets ipython_genutils decorator  simplegeneric jupyter_core pygments pexpect pathlib2 pickleshare pathpy prompt_toolkit wcwidth readlinepython
     dbuspython];
 
-    src = fetchsvn {
-    	url = https://svn.cv.nrao.edu/svn/casa/trunk;
-	rev = "${revno}";
-	sha256 = "1lb6dmi235s5kshvwmhp3yykfg8m4vwcw5f3bwip5qbpgskggcrs";
+    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
+    src = fetchgit {
+    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
+	rev = "${gitrev}" ;
+	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
     };
-
-#    src = fetchgit {
-#    	url = file:///home/bnikolic/oss/github-casa/ ;
-#	rev = "${gitrev}" ;
-#	sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
-#    };
 
 
     # Uses pkgconfig to dbus
@@ -90,8 +83,6 @@ stdenv.mkDerivation rec {
      "-DNUMPY_ROOT_DIR=${numpy}/lib/python2.7/site-packages/numpy/core"
      ];
 
-     sourceRoot = "casa-r${revno}/gcwrap";
-#     sourceRoot = "github-casa-e438ab5/gcwrap";
-
-     enableParallelBuilding = true;
+    sourceRoot = "casa-b20ad38/gcwrap";
+    enableParallelBuilding = true;
 }
