@@ -55,7 +55,7 @@ stdenv.mkDerivation rec {
     ];
 
     postInstall =  ''
-    substituteInPlace $out/lib/python2.7/casapy.py \
+    substituteInPlace $out/python/2.7/casapy.py \
       --replace "@CASADATAROOT@"  ${casa-data} \
       --replace "@CASAGCWRAPROOT@" $out
     # Note @ gets eaten during install so do not use

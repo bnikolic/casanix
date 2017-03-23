@@ -2,7 +2,7 @@ diff --git a/python/scripts/casapy.py b/python/scripts/casapy.py
 index 1ab114c..16eeb92 100644
 --- a/python/scripts/casapy.py
 +++ b/python/scripts/casapy.py
-@@ -156,12 +156,12 @@ casa = { 'build': {
+@@ -149,12 +149,12 @@
           },
           'dirs': {
               'rc': homedir + '/.casa',
@@ -19,7 +19,7 @@ index 1ab114c..16eeb92 100644
           },
           'flags': { },
           'files': { 
-@@ -178,58 +178,8 @@ casa = { 'build': {
+@@ -170,59 +170,9 @@
  ## ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
  ## set up casa root
  ## ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -32,8 +32,8 @@ index 1ab114c..16eeb92 100644
 -    else :
 -        casa['dirs']['root'] = __casapath__
 -        casa['dirs']['data'] = __casapath__ + "/data"
--        if os.path.exists(__casapath__ + "/" + __casaarch__ + "/lib/python2.7/assignmentFilter.py"):
--            casa['dirs']['python'] = __casapath__ + "/" + __casaarch__ + "/lib/python2.7"
+-        if os.path.exists(__casapath__ + "/" + __casaarch__ + "/python/2.7/assignmentFilter.py"):
+-            casa['dirs']['python'] = __casapath__ + "/" + __casaarch__ + "/python/2.7"
 -        elif os.path.exists(__casapath__ + "/lib/python2.7/assignmentFilter.py"):
 -            casa['dirs']['python'] = __casapath__ + "/lib/python2.7"
 -        elif os.path.exists(__casapath__ + "/Resources/python/assignmentFilter.py"):
@@ -59,8 +59,8 @@ index 1ab114c..16eeb92 100644
 -    else :
 -        casa['dirs']['root'] = __casapath__
 -        casa['dirs']['data'] = __casapath__ + "/data"
--        if os.path.exists(__casapath__ + "/" + __casaarch__ + "/lib/python2.7/assignmentFilter.py"):
--            casa['dirs']['python'] = __casapath__ + "/" + __casaarch__ + "/lib/python2.7"
+-        if os.path.exists(__casapath__ + "/" + __casaarch__ + "python/2.7/assignmentFilter.py"):
+-            casa['dirs']['python'] = __casapath__ + "/" + __casaarch__ + "/python/2.7"
 -        elif os.path.exists(__casapath__ + "/lib/python2.7/assignmentFilter.py"):
 -            casa['dirs']['python'] = __casapath__ + "/lib/python2.7"
 -        elif os.path.exists(__casapath__ + "/Resources/python/assignmentFilter.py"):
@@ -75,12 +75,13 @@ index 1ab114c..16eeb92 100644
 -            casa['dirs']['xml'] = __casapath__ + "/xml"
 -        else:
 -            raise RuntimeError, "Unable to find the XML constraints directory in your CASAPATH"
+ 
 +__casapath__ = "/"
 +__casaarch__ = "linux"
  
- 
  ## ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-@@ -782,22 +732,13 @@ def update_params(func, printtext=True, ipython_globals=None):
+ ## setup pipeline path (if it exists)
+@@ -774,22 +724,13 @@
  	if(has_othertasks) :
  	   has_task = myf['task_location'].has_key(myf['taskname'])
  	   if (has_task) :
