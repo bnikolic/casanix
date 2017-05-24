@@ -1,4 +1,4 @@
-{ system ? builtins.currentSystem , crossSystem ? null, config ? null}:
+{ system ? builtins.currentSystem , crossSystem ? null, config ? {} }:
 let
 
   pkgs = (import <nixpkgs> ) { inherit system crossSystem config; };
