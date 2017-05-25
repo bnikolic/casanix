@@ -7,7 +7,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "ftp://ftp.atnf.csiro.au/pub/software/rpfits/${name}.tar.gz" ;
-    sha256 = "09absmdk6bfnxavxwi1b3v196c8g1v1rswq4vxy34gh9n6gpa9gy";
+    sha256 = "0p7bzsp1wmcs2plb151s0gps2q76g3wp0cqzjbsl7i9ndg6fn1dk";
   };
 
   sourceRoot="rpfits/linux";
