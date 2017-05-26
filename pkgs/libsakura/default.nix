@@ -13,9 +13,9 @@ stdenv.mkDerivation rec {
   };
 
   preConfigure = ''
-        cp -r ${gtest.source} $NIX_BUILD_TOP/libsakura/gtest
+        cp -r ${gtest.src} $NIX_BUILD_TOP/libsakura/gtest
 	chmod u+w -R $NIX_BUILD_TOP/libsakura/gtest
-        cmakeFlagsArray=( -DCMAKE_MODULE_PATH="$NIX_BUILD_TOP/libsakura/cmake-modules"  -DBUILD_DOC=OFF);
+        cmakeFlagsArray=( -DCMAKE_MODULE_PATH="$NIX_BUILD_TOP/libsakura/cmake-modules"  -DBUILD_DOC=OFF -DGTEST_INCLUDE_DIRS="$NIX_BUILD_TOP//libsakura/gtest/googletest/include/" );
     '';  
 
   cmakeFlagsArray =  [  ];
