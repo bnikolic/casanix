@@ -18,6 +18,9 @@
   casa-data
  }:
 
+let
+   srcs = import ../casasrc.nix {inherit fetchgit;};
+ in
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa";
@@ -34,21 +37,13 @@ stdenv.mkDerivation rec {
 	  pkgconfig libxslt subversion subversionClient perl
 	  breakpad gtest curl casa-data makeWrapper];
 
-    src = fetchgit {
-    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
-	rev = "${gitrev}" ;
-	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
-    };
-
-    # src = fetchgit {
-    # url = file:///home/bnikolic/oss/github-casa/ ;
-    # rev = "${gitrev}" ;
-    # sha256 = "0iarrdyrd3vmy2jdmsdq5z4j0k3v4hhvfflgkbwsh93kxgf6w2ij";
-    # };
+    src  = srcs.src;
 
     # Uses pkgconfig to dbus
     patches = [
         ./buildfix.patch
+	./glibc225.patch
+	./googletest.patch
     ];
 
     preConfigure = ''
@@ -67,11 +62,12 @@ stdenv.mkDerivation rec {
      "-DCMAKE_Fortran_COMPILER=${gfortran}/bin/gfortran"
      "-DGoogleTest_ReleaseRoot=${gtest}"
      "-DGoogleTest_LibraryDir=${gtest}/lib"
+     "-DUseCrashReporter=0"
      ];
 
      hardeningDisable = [ "format" ];
 
-     sourceRoot = "casa-b20ad38/code";
+     sourceRoot = "${srcs.sourcePref}/code";
 
      enableParallelBuilding = true;
 

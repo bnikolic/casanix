@@ -1,8 +1,8 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 76ed5f5..7cea14e 100644
+diff --git a/code/CMakeLists.txt b/code/CMakeLists.txt
+index e9a1432..05c2a03 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1075,9 +1075,12 @@ if ( ${dbusxx} STREQUAL dbus-c++ )
+@@ -1102,9 +1102,12 @@ if ( ${dbusxx} STREQUAL dbus-c++ )
    # Debian arch specific header location (64 bit only)
    list( APPEND dbus_prefix /usr/lib/x86_64-linux-gnu/dbus-1.0)
  
@@ -16,27 +16,6 @@ index 76ed5f5..7cea14e 100644
      NO_CHECK   # This header does not compile if included directly
      NO_REQUIRE
      IGNORE /usr/lib64/casapy
-@@ -1308,7 +1311,7 @@ casa_find( LIBSAKURA
- #                         #
- ###########################
- 
--include (GoogleTestInstall)
-+
- 
- #########################
- #                       #
-@@ -1316,7 +1319,10 @@ include (GoogleTestInstall)
- #                       #
- #########################
- 
--include (BreakpadInstall)
-+find_package(PkgConfig)
-+pkg_check_modules(PC_BREAKPAD QUIET breakpad)
-+pkg_check_modules(PC_BREAKPAD_CLIENT QUIET breakpad-client)
-+
- 
- ###
- 
 diff --git a/casaqt/CMakeLists.txt b/casaqt/CMakeLists.txt
 index 111a277..44fd922 100644
 --- a/casaqt/CMakeLists.txt
@@ -54,18 +33,6 @@ index 111a277..44fd922 100644
  install (FILES
  	PlotterImplementations/PlotterImplementations.h
  	DESTINATION include/casacode/casaqt/QwtPlotter
-diff --git a/crash/CMakeLists.txt b/crash/CMakeLists.txt
-index 1e8b4b5..b0bdd73 100644
---- a/crash/CMakeLists.txt
-+++ b/crash/CMakeLists.txt
-@@ -1,5 +1,5 @@
- if (UseCrashReporter)
--    casa_add_executable (NONE CrashReportPoster apps/reporter/CrashReportPoster.cc ${Breakpad_IncludeRoot}/common/linux/http_upload.cc)
-+    casa_add_executable (NONE CrashReportPoster apps/reporter/CrashReportPoster.cc ${PC_BREAKPAD_INCLUDEDIR}/common/linux/http_upload.cc)
-     target_link_libraries (CrashReportPoster -ldl)
--    target_include_directories (CrashReportPoster PUBLIC ${Breakpad_IncludeRoot})
-+    target_include_directories (CrashReportPoster PUBLIC ${PC_BREAKPAD_INCLUDEDIR})
- endif ()
 diff --git a/install/target.cmake b/install/target.cmake
 index 343a12a..27045db 100644
 --- a/install/target.cmake
@@ -86,19 +53,3 @@ index 343a12a..27045db 100644
 -endmacro ()
 \ No newline at end of file
 +endmacro ()
-diff --git a/stdcasa/CMakeLists.txt b/stdcasa/CMakeLists.txt
-index 2a53142..05dabee 100644
---- a/stdcasa/CMakeLists.txt
-+++ b/stdcasa/CMakeLists.txt
-@@ -28,8 +28,9 @@ casa_add_library( stdcasa
- 	${CMAKE_CURRENT_BINARY_DIR}/version.cc
- 	)
- if (UseCrashReporter)
--    target_include_directories (libstdcasa PUBLIC ${Breakpad_IncludeRoot})
--    target_link_libraries (libstdcasa general ${Breakpad_Library})
-+    target_include_directories (libstdcasa PUBLIC ${PC_BREAKPAD_INCLUDE_DIRS})
-+    target_link_libraries (libstdcasa general ${PC_BREAKPAD_LIBRARIES} ${PC_BREAKPAD_CLIENT_LIBRARIES})
-+    target_compile_options(libstdcasa PUBLIC ${PC_BREAKPAD_CFLAGS_OTHER})    
- endif ()
- 
- if (UseCrashReporter)
