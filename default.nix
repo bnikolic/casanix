@@ -7,6 +7,7 @@ let
 
   self = rec {
 
+  # See also pkgs/ipython/0.13.2.nix version
   ipython010 = with pkgs.lib;  pkgs.pythonPackages.buildPythonPackage rec {
 
     version = "0.10.2";
