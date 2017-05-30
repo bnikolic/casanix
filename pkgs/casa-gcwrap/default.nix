@@ -19,6 +19,9 @@
   readlinepython, dbuspython
  }:
 
+ let
+   srcs = import ../casasrc.nix {inherit fetchgit;};
+ in
 # TODO: google test at the moment has to be in tree. Factor out as separate package and make proper dependnecy
 stdenv.mkDerivation rec {
     name = "casa-gwcrap";
@@ -37,13 +40,7 @@ stdenv.mkDerivation rec {
     numpy matplotlib scipy ipython010 dateutil six cycler pyparsing traitlets ipython_genutils decorator  simplegeneric jupyter_core pygments pexpect pathlib2 pickleshare pathpy prompt_toolkit wcwidth readlinepython
     dbuspython];
 
-    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
-    src = fetchgit {
-    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
-	rev = "${gitrev}" ;
-	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
-    };
-
+    src  = srcs.src;
 
     # Uses pkgconfig to dbus
     patches = [
@@ -83,6 +80,6 @@ stdenv.mkDerivation rec {
      "-DNUMPY_ROOT_DIR=${numpy}/lib/python2.7/site-packages/numpy/core"
      ];
 
-    sourceRoot = "casa-b20ad38/gcwrap";
+    sourceRoot = "${srcs.sourcePref}/gcwrap";
     enableParallelBuilding = true;
 }
