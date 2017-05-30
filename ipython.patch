@@ -1,0 +1,46 @@
+diff -u ipython-0.10.2-orig/setupbase.py ipython-0.10.2/setupbase.py
+--- ipython-0.10.2-orig/setupbase.py	2010-10-12 08:13:29.000000000 +0100
++++ ipython-0.10.2/setupbase.py	2017-05-30 12:10:42.455295961 +0100
+@@ -175,7 +175,7 @@
+         pfiles = [pjoin(dirpath,f) for f in filenames]
+         # Finally, generate the entry we need, which is a triple of (tag,output
+         # path, files) for use as a data_files parameter in install_data.
+-        out.append((tag,out_path,pfiles))
++        out.append((out_path,pfiles))
+ 
+     return out
+     
+@@ -200,14 +200,14 @@
+     manual_files = make_dir_struct('data','docs/dist',pjoin(docdirbase,'manual'))
+ 
+     # And assemble the entire output list
+-    data_files = [ ('data',manpagebase, manpages),
+-                   ('data',pjoin(docdirbase,'extensions'),igridhelpfiles),
++    data_files = [ (manpagebase, manpages),
++                   (pjoin(docdirbase,'extensions'),igridhelpfiles),
+                    ] + manual_files + example_files
+                  
+-    ## import pprint  # dbg
+-    ## print '*'*80
+-    ## print 'data files'
+-    ## pprint.pprint(data_files)
+-    ## print '*'*80
++    import pprint  # dbg
++    print '*'*80
++    print 'data files'
++    pprint.pprint(data_files)
++    print '*'*80
+     
+     return data_files
+diff -u ipython-0.10.2-orig/setupext/install_data_ext.py ipython-0.10.2/setupext/install_data_ext.py
+--- ipython-0.10.2-orig/setupext/install_data_ext.py	2010-10-12 08:13:29.000000000 +0100
++++ ipython-0.10.2/setupext/install_data_ext.py	2017-05-30 12:15:15.971708511 +0100
+@@ -51,6 +51,7 @@
+         too.  The third entry is a list of files to install.
+         """
+         for lof in self.data_files:
++            lof = ("data", lof[0], lof[1])
+             if lof[0]:
+                 base = getattr(self, 'install_' + lof[0])
+             else:
+

@@ -21,10 +21,12 @@ let
       substituteInPlace setup.py --replace "'gnureadline'" " "
     '';
 
+    patches = [ ./ipython.patch ];
+
     buildInputs = with self; with pkgs.pythonPackages; [nose] ++ optionals isPy27 [mock];
 
-    propagatedBuildInputs = with self; with pkgs.pythonPackages;
-      [twisted decorator pickleshare simplegeneric traitlets readline requests2 pexpect sqlite3]
+    propagatedBuildInputs = with self; with pkgs.pythonPackages; with pkgs;
+      [twisted decorator pickleshare simplegeneric traitlets readline requests2 pexpect sqlite]
       ++ pkgs.stdenv.lib.optionals pkgs.stdenv.isDarwin [appnope gnureadline];
 
   };
@@ -43,7 +45,7 @@ let
   casa-gcwrap = callPackage pkgs/casa-gcwrap {
       inherit (pkgs.pythonPackages) numpy matplotlib scipy dateutil six cycler pyparsing traitlets ipython_genutils decorator simplegeneric jupyter_core nose pygments pexpect backports_shutil_get_terminal_size pathlib2 pickleshare pathpy prompt_toolkit wcwidth ;
       ipython010=ipython010;
-      readlinepython=pkgs.pythonPackages.readline;
+      readlinepython=pkgs.pythonPackages.gnureadline;
       dbuspython=pkgs.pythonPackages.dbus-python;
    };  
   pgplot = callPackage pkgs/pgplot { };
