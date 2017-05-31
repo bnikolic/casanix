@@ -7,6 +7,9 @@
   perl
  }:
 
+ let
+   srcs = import ../casasrc.nix {inherit fetchgit;};
+ in
  stdenv.mkDerivation rec {
     name = "casa-asap" ;
 
@@ -14,12 +17,7 @@
     casa casacore cfitsio pgplot
     liblapackWithAtlasShared python numpy xorg.libXpm rpfits wcslib perl];
 
-    gitrev="b20ad3818aebb1ad47a48e0d62413b75cce561fd";
-    src = fetchgit {
-    	url = https://open-bitbucket.nrao.edu/scm/casa/casa.git ;
-	rev = "${gitrev}" ;
-	sha256 = "1bmc4bmlmb7835nc5hg6zckkp6ncw1d4s8pbv5nlviin68ih5vgk";
-    };
+    src  = srcs.src;
 
     patches = [
         ./cmakefix.patch
@@ -38,5 +36,5 @@
 
      enableParallelBuilding = true;
 
-     sourceRoot = "casa-b20ad38/asap";
+    sourceRoot = "${srcs.sourcePref}/asap";
 }

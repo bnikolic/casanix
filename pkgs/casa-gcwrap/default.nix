@@ -13,7 +13,7 @@
   # Perl is used to create the SO version string
   perl,
   casa, casa-data, casa-asap,
-  numpy, matplotlib, scipy, ipython010, dateutil, six, cycler, pyparsing, traitlets, ipython_genutils, decorator,  simplegeneric, jupyter_core, pygments,
+  numpy, matplotlib, scipy, ipython010, dateutil, six, cycler, pyparsing, traitlets, ipython_genutils, decorator,  simplegeneric, jupyter_core, pygments, functools32,
   # Run-time dependency (test framework?)
   nose, pexpect, backports_shutil_get_terminal_size, pathlib2, pickleshare, pathpy, prompt_toolkit, wcwidth,
   readlinepython, dbuspython
@@ -38,7 +38,7 @@ stdenv.mkDerivation rec {
 
     propagatedBuildInputs = [
     numpy matplotlib scipy ipython010 dateutil six cycler pyparsing traitlets ipython_genutils decorator  simplegeneric jupyter_core pygments pexpect pathlib2 pickleshare pathpy prompt_toolkit wcwidth readlinepython
-    dbuspython];
+    dbuspython functools32];
 
     src  = srcs.src;
 
@@ -52,7 +52,7 @@ stdenv.mkDerivation rec {
     ];
 
     postInstall =  ''
-    substituteInPlace $out/python/2.7/casapy.py \
+    substituteInPlace $out/lib/python2.7/casapy.py \
       --replace "@CASADATAROOT@"  ${casa-data} \
       --replace "@CASAGCWRAPROOT@" $out
     # Note @ gets eaten during install so do not use
@@ -63,7 +63,7 @@ stdenv.mkDerivation rec {
               --replace "NIXPGPLOT" ${pgplot} \
               --replace "NIXCASAGCWRAP" $out
 	wrapProgram $a \
-	   --prefix PYTHONPATH : "$(toPythonPath ${matplotlib}):$(toPythonPath ${numpy}):$(toPythonPath ${scipy}):$(toPythonPath ${ipython010}):$(toPythonPath ${pyparsing}):$(toPythonPath ${jupyter_core}):$(toPythonPath ${cycler}):$(toPythonPath ${simplegeneric}):$(toPythonPath ${six}):$(toPythonPath ${dateutil}):$(toPythonPath ${traitlets}):$(toPythonPath ${decorator}):$(toPythonPath ${ipython_genutils}):$(toPythonPath ${pygments}):$(toPythonPath ${pexpect}):$(toPythonPath ${backports_shutil_get_terminal_size}):$(toPythonPath ${pathlib2}):$(toPythonPath ${pickleshare}):$(toPythonPath ${pathpy}):$(toPythonPath ${prompt_toolkit}):$(toPythonPath ${wcwidth}):$(toPythonPath ${readlinepython}):$(toPythonPath ${dbuspython}):${casa-asap}/python/2.7" \
+	   --prefix PYTHONPATH : "$(toPythonPath ${matplotlib}):$(toPythonPath ${numpy}):$(toPythonPath ${scipy}):$(toPythonPath ${ipython010}):$(toPythonPath ${pyparsing}):$(toPythonPath ${jupyter_core}):$(toPythonPath ${cycler}):$(toPythonPath ${simplegeneric}):$(toPythonPath ${six}):$(toPythonPath ${dateutil}):$(toPythonPath ${traitlets}):$(toPythonPath ${decorator}):$(toPythonPath ${ipython_genutils}):$(toPythonPath ${pygments}):$(toPythonPath ${pexpect}):$(toPythonPath ${backports_shutil_get_terminal_size}):$(toPythonPath ${pathlib2}):$(toPythonPath ${pickleshare}):$(toPythonPath ${pathpy}):$(toPythonPath ${prompt_toolkit}):$(toPythonPath ${wcwidth}):$(toPythonPath ${readlinepython}):$(toPythonPath ${dbuspython}):$(toPythonPath ${functools32}):${casa-asap}/python/2.7" \
 	   --prefix CASAPATH : "${casa-data}/share"
 	   
     done
@@ -78,6 +78,8 @@ stdenv.mkDerivation rec {
     cmakeFlags = [
      "-DCMAKE_Fortran_COMPILER=${gfortran}/bin/gfortran"
      "-DNUMPY_ROOT_DIR=${numpy}/lib/python2.7/site-packages/numpy/core"
+     "-DCASA_IGNORE_VERSION=1"
+     "-DUseCrashReporter=0"     
      ];
 
     sourceRoot = "${srcs.sourcePref}/gcwrap";
